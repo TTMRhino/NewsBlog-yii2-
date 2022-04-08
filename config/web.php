@@ -11,6 +11,14 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+            //'defaultRoute' => 'main/index',
+            //'layout' => 'admin',
+        ],
+    ],
+
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -43,16 +51,25 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+        
+        
+       
     ],
+    'container' => [
+        'definitions' => [
+           \yii\widgets\LinkPager::class => \yii\bootstrap4\LinkPager::class,
+        ],
+     ],
     'params' => $params,
+
+    
 ];
 
 if (YII_ENV_DEV) {

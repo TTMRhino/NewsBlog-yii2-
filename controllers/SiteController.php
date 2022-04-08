@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\News;
+use yii\data\Pagination;
 
 class SiteController extends Controller
 {
@@ -61,7 +63,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $news_posts = News::find()->orderBy(['title' => SORT_ASC]);
+
+        $pages = new Pagination([ 'totalCount'=> $news_posts->count(), 'pageSize'=>12,'forcePageParam'=>false, 'pageSizeParam'=>false ]);
+        $news_posts = $news_posts->offset($pages->offset)->limit($pages->limit)->all();
+
+        return $this->render('index',compact('news_posts','pages'));
     }
 
     /**
