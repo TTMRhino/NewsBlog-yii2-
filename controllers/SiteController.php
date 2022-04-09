@@ -63,13 +63,37 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
         $news_posts = News::find()->orderBy(['title' => SORT_ASC]);
 
         $pages = new Pagination([ 'totalCount'=> $news_posts->count(), 'pageSize'=>12,'forcePageParam'=>false, 'pageSizeParam'=>false ]);
         $news_posts = $news_posts->offset($pages->offset)->limit($pages->limit)->all();
 
-        return $this->render('index',compact('news_posts','pages'));
+        return $this->render('public/index',compact('news_posts','pages'));
     }
+
+    public function actionView(int $id)
+    {
+        $post = News::find()->where(['id'=>$id])->one();
+        return $this->render('public/view', compact('post'));
+    }
+
+
+    public function actionSearch()
+    {
+      
+        $q = trim(\Yii::$app->request->get('q'));
+        
+        if(!$q){
+            return $this->render('search');
+        }
+        $query = News::find()->where(['like', 'news',$q])->orwhere(['like', 'title',$q]);
+        $pages = new Pagination([ 'totalCount'=> $query->count(), 'pageSize'=>12,'forcePageParam'=>false, 'pageSizeParam'=>false ]);
+        $news_posts= $query->offset($pages->offset)->limit($pages->limit)->all();
+
+        return $this->render('public/search',compact('news_posts','pages','q'));
+    }
+    
 
     /**
      * Login action.
@@ -105,31 +129,5 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
+    
 }

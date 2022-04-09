@@ -23,7 +23,7 @@ class m220408_085201_create_news_table extends Migration
             $post->news = $faker->text(rand(1000, 2000));
             $post->active = rand(0, 1);
             //$post->date_public = $faker->unixTime();
-            $post->pic = '/pic/news_pic.jpg';
+            $post->pic = '/pic/logo.jpg';
             $post->save(false);
         }
 
