@@ -7,15 +7,19 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'name' => 'News Blog',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules' => [
         'admin' => [
-            'class' => 'app\modules\admin\Module',
-            //'defaultRoute' => 'main/index',
-            //'layout' => 'admin',
+            'class' => 'app\modules\admin\Module',         
+            'layout' => 'admin',
+        ],
+        'system' => [
+            'class' => 'app\modules\admin\modules\system\Module',
+            'layout' => 'admin',
         ],
     ],
 
