@@ -29,9 +29,6 @@ $this->title = 'News Blog';
 
 <div class="row">
 <?php  foreach($news_posts as $post):?>
-    
-
-
         
         <div class="card text-center">
        

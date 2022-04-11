@@ -90,8 +90,10 @@ AdminAsset::register($this);
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-         
+         <div class="col">
          <?= $content ?>
+         </div>
+        
          
         </div>
         <!-- /.row -->
@@ -127,6 +129,9 @@ AdminAsset::register($this);
 
 
 <?php $this->endBody() ?>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+<script src="../js/mScrypt.js"></script>
+
 </body>
 </html>
 <?php $this->endPage() ?>
