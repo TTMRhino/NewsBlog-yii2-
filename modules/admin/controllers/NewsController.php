@@ -4,9 +4,11 @@ namespace app\modules\admin\controllers;
 
 use app\models\News;
 use app\models\NewsSearch;
+use app\modules\admin\models\UploadForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 use Yii;
 
 /**
@@ -55,7 +57,7 @@ class NewsController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'pageSize' => $pageSize,
+            //'pageSize' => $pageSize,
         ]);
     }
 
@@ -104,13 +106,21 @@ class NewsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $picModel = new UploadForm();
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        $picModel->deleteCurrentImage($model->pic);
+      
+        $picModel->imageFile = UploadedFile::getInstance($picModel, 'imageFile');          
+
+        if ($this->request->isPost && $model->load($this->request->post()) && ($message = $picModel->upload($model)) && $model->save()) {
+           
+            \Yii::$app->session->setFlash('success_update', " News updated! ");
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'picModel' => $picModel
         ]);
     }
 
@@ -142,5 +152,21 @@ class NewsController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+
+    public function actionUpload()
+    {
+        $model = new UploadForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+                return;
+            }
+        }
+
+        return $this->render('upload', ['model' => $model]);
     }
 }

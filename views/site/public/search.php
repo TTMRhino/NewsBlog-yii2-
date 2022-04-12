@@ -2,7 +2,7 @@
 use yii\helpers\Url;
 
 use \yii\widgets\ActiveForm;
-
+use app\widgets\PageSize\PageSize;
 
 /** @var yii\web\View $this */
 
@@ -64,20 +64,15 @@ $this->title = 'News Blog';
             <ul class="pagination ">
                 <?= \yii\widgets\LinkPager::widget(['pagination'=> $pages,'class'=>'page-link']); ?>
             </ul>
-
-
-
-            <div class="toolbar-sorter-footer">
-                <label>Показать:</label>
-                <select class="sorter" name="sorter">
-                    <option value="Position" selected="selected">12</option>
-                    <option value="Product Name">15</option>
-                    <option value="Price">30</option>
-                </select>
-                <span>страниц</span>
-            </div>
+           
         </div>
 
     </div>
+
+    <div class="row">
+                <div class="col-md-2">
+                    <?= PageSize::widget() ?>
+                </div>
+            </div>
     <a   href="<?= Url::to(['index']) ?>">на главную</a>
 </div>

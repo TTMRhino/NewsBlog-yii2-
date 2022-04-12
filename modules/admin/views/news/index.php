@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use app\widgets\PageSize\PageSize;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\NewsSearch */
@@ -14,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="news-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
+        <?= Html::encode($this->title) ?>
+    </h1>
 
-    <p>
-        <?= Html::a('Create News', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
 
     <?php //echo $this->render('_search', ['model' => $searchModel, 'pageSize' => $pageSize]); ?>
 
@@ -56,20 +57,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
+</div>
 <div class="row">
-    <div class="col-md-1">
-    <div class="form-group">
-   
-   <?= Html::label('Page Size', ['class' => 'control-label']) ?>
-   <?= Html::dropDownList('pageSize', $pageSize, 
-       [ 10 => '10', 20 => '20', 50 => '50', 100 => '100'],
-       ['class' => 'form-control','id'=>'page_size']) ?>
-
-</div>
+    <div class="col-1">
+        <?= PageSize::widget() ?>
     </div>
-</div>
-
-
-
 </div>

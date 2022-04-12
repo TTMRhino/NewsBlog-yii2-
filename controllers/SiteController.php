@@ -64,9 +64,16 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
+         //get cooki pagination size 
+         if ($_COOKIE["pageSize"] !== null) {           
+            $pageSize = htmlspecialchars($_COOKIE["pageSize"]);
+        }else{
+            $pageSize =10;  
+        }
+
         $news_posts = News::find()->orderBy(['title' => SORT_ASC]);
 
-        $pages = new Pagination([ 'totalCount'=> $news_posts->count(), 'pageSize'=>12,'forcePageParam'=>false, 'pageSizeParam'=>false ]);
+        $pages = new Pagination([ 'totalCount'=> $news_posts->count(), 'pageSize'=>$pageSize,'forcePageParam'=>false, 'pageSizeParam'=>false ]);
         $news_posts = $news_posts->offset($pages->offset)->limit($pages->limit)->all();
 
         return $this->render('public/index',compact('news_posts','pages'));
@@ -81,14 +88,20 @@ class SiteController extends Controller
 
     public function actionSearch()
     {
-      
+       //get cooki pagination size 
+       if ($_COOKIE["pageSize"] !== null) {           
+        $pageSize = htmlspecialchars($_COOKIE["pageSize"]);
+    }else{
+        $pageSize =10;  
+    }
+    
         $q = trim(\Yii::$app->request->get('q'));
         
         if(!$q){
             return $this->render('search');
         }
         $query = News::find()->where(['like', 'news',$q])->orwhere(['like', 'title',$q]);
-        $pages = new Pagination([ 'totalCount'=> $query->count(), 'pageSize'=>12,'forcePageParam'=>false, 'pageSizeParam'=>false ]);
+        $pages = new Pagination([ 'totalCount'=> $query->count(), 'pageSize'=>$pageSize,'forcePageParam'=>false, 'pageSizeParam'=>false ]);
         $news_posts= $query->offset($pages->offset)->limit($pages->limit)->all();
 
         return $this->render('public/search',compact('news_posts','pages','q'));

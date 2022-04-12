@@ -19,7 +19,8 @@ class AdminAsset extends AssetBundle
         'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js',
         'adminlte/dist/js/adminlte.min.js',
         'adminlte/dist/js/electro74_main.js',
-        
+        'https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js',
+        '../js/mScrypt.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

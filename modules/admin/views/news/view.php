@@ -15,6 +15,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <div class="row">
+    <div class="col-sm-12">
+        <?php if( Yii::$app->session->hasFlash('success_update') ): ?>
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <?php echo Yii::$app->session->getFlash('success_update'); ?>
+            </div>
+        <?php elseif(Yii::$app->session->hasFlash('error_update')): ?>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <?php echo Yii::$app->session->getFlash('error_update'); ?>
+            </div>
+
+        <?php endif;?>
+    </div>
+</div>
+
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -32,7 +49,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             'announce',
-            'pic',
+            //'pic',
+            [
+                'attribute'=> 'pic',
+                'format' => 'raw',
+                'value'=> function($model)
+                {
+                    
+                    $img = $model->pic ;
+                   
+                    return "<div class='pro-img'>
+                            <a href='/pic/". $img . "' data-toggle='lightbox'>
+                                <img style='height:70px;'class='img-fluid mb-2' 
+                                src= '/pic/". $img ."' alt='white sample' data-gallery='gallery'/>
+                            </a>
+                          </div>";                          
+                }
+            ],
             'news:ntext',
             'date_public',
             'active',

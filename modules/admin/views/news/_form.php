@@ -16,7 +16,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'announce')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'pic')->textInput(['maxlength' => true]) ?>
+    <?php //echo $form->field($model, 'pic')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($picModel, 'imageFile')->fileInput() ?>
 
     <?= $form->field($model, 'news')->textarea(['rows' => 6]) ?>
 
