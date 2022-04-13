@@ -27,7 +27,7 @@ class m220408_085201_create_news_table extends Migration
             $post->save(false);
         }
 
-        die('Data generation is complete!');
+       // die('Data generation is complete!');
     }
     /**
      * {@inheritdoc}

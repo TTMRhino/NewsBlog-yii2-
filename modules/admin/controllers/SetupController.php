@@ -2,19 +2,16 @@
 
 namespace app\modules\admin\controllers;
 
-use app\models\News;
-use app\models\NewsSearch;
-use app\modules\admin\models\UploadForm;
+use app\modules\admin\models\Setup;
+use app\modules\admin\models\SetupSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
-use Yii;
 
 /**
- * NewsController implements the CRUD actions for News model.
+ * SetupController implements the CRUD actions for Setup model.
  */
-class NewsController extends Controller
+class SetupController extends Controller
 {
     /**
      * @inheritDoc
@@ -35,34 +32,23 @@ class NewsController extends Controller
     }
 
     /**
-     * Lists all News models.
+     * Lists all Setup models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        //get cooki pagination size 
-        if ($_COOKIE["pageSize"] !== null) {           
-            $pageSize = htmlspecialchars($_COOKIE["pageSize"]);
-        }else{
-            $pageSize =10;  
-        }
-
-       
-
-        $searchModel = new NewsSearch();
+        $searchModel = new SetupSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->pagination->pageSize = $pageSize;//set pagination size from cooki
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            //'pageSize' => $pageSize,
         ]);
     }
 
     /**
-     * Displays a single News model.
+     * Displays a single Setup model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -75,13 +61,13 @@ class NewsController extends Controller
     }
 
     /**
-     * Creates a new News model.
+     * Creates a new Setup model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new News();
+        $model = new Setup();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -97,7 +83,7 @@ class NewsController extends Controller
     }
 
     /**
-     * Updates an existing News model.
+     * Updates an existing Setup model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -106,27 +92,18 @@ class NewsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $picModel = new UploadForm();
 
-        $picModel->deleteCurrentImage($model->pic);
-      
-        $picModel->imageFile = UploadedFile::getInstance($picModel, 'imageFile');          
-       
-
-        if ( $model->load($this->request->post()) &&  ($message = $picModel->upload($model)) && $model->save()) {
-           
-            \Yii::$app->session->setFlash('success_update', " News updated! ");
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'picModel' => $picModel
         ]);
     }
 
     /**
-     * Deletes an existing News model.
+     * Deletes an existing Setup model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -140,34 +117,18 @@ class NewsController extends Controller
     }
 
     /**
-     * Finds the News model based on its primary key value.
+     * Finds the Setup model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return News the loaded model
+     * @return Setup the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = News::findOne(['id' => $id])) !== null) {
+        if (($model = Setup::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-
-   /* public function actionUpload()
-    {
-        $model = new UploadForm();
-
-        if (Yii::$app->request->isPost) {
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->upload()) {
-                // file is uploaded successfully
-                return;
-            }
-        }
-
-        return $this->render('upload', ['model' => $model]);
-    }*/
 }

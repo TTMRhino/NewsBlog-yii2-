@@ -17,24 +17,28 @@ class UploadForm extends Model
     public function rules()
     {
         return [
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg'],
         ];
     }
     
     public function upload(News $model)
     {
-        if ($this->validate()) {
-         
+        if ($this->validate()) {         
+       
+            if(!is_null($this->imageFile->extension)){
+                $filename = strtolower(md5(uniqid($this->imageFile->basename)). '.'. $this->imageFile->extension);
 
-            $filename = strtolower(md5(uniqid($this->imageFile->basename)). '.'. $this->imageFile->extension);
-
-            $model->pic = $filename;//update news.field in DB
-            $model->save();
-
-            $this->imageFile->saveAs(\Yii::getAlias('@webroot/pic/'. $filename));
-            Image::resize(\Yii::getAlias('@webroot/pic/'. $filename), 200, 200)->save(\Yii::getAlias('@webroot/pic/'.$filename), ['quality' => 100]);;
-          
+                $model->pic = $filename;//update news.field in DB
+                $model->save();
+    
+                //dd($filename,true);
+                $this->imageFile->saveAs(\Yii::getAlias('@webroot/pic/'. $filename));
+                Image::resize(\Yii::getAlias('@webroot/pic/'. $filename), 200, 200)->save(\Yii::getAlias('@webroot/pic/'.$filename), ['quality' => 100]);;
+              
+                return true;
+            }
             return true;
+           
         } else {
             return false;
         }

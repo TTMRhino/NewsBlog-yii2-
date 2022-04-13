@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use mihaildev\ckeditor\CKEditor;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\News */
@@ -10,7 +11,9 @@ use yii\widgets\ActiveForm;
 
 <div class="news-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'options' => ['enctype' => 'multipart/form-data']
+    ]); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
@@ -19,11 +22,21 @@ use yii\widgets\ActiveForm;
     <?php //echo $form->field($model, 'pic')->textInput(['maxlength' => true]) ?>
     <?= $form->field($picModel, 'imageFile')->fileInput() ?>
 
-    <?= $form->field($model, 'news')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'news')->widget(CKEditor::className(),[
+    'editorOptions' => [
+        'preset' => 'full', //разработанны стандартные настройки basic, standard, full данную возможность не обязательно использовать
+        'inline' => false, //по умолчанию false
+        ],
+    ]); 
+?>
 
-    <?= $form->field($model, 'date_public')->textInput() ?>
-
-    <?= $form->field($model, 'active')->textInput() ?>
+    <?= $form->field($model, 'date_public')->widget(\yii\jui\DatePicker::classname(), [
+    //'language' => 'ru',
+    'dateFormat' => 'yyyy-MM-dd',   
+    
+]) ?>
+    
+    <?= $form->field($model, 'active')->dropDownList([1 =>'Да', 0 =>'Нет']); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

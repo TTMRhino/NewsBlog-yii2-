@@ -29,32 +29,33 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         
           <li class="nav-item">
-            <a href="<?= Url::to('/admin/main/index') ?>" class="nav-link">
-              
-              <i class="far fa-chart-bar"></i>
+            <a href="<?= Url::to('/admin/news/index') ?>" class="nav-link">              
+            <i class="fa fa-globe" aria-hidden="true"></i>
               <p>
-                Статистика
+                News
                 <!--<span class="right badge badge-danger">New</span>-->
               </p>
             </a>
           </li>
 
           <li class="nav-item">
-            <a href="<?= Url::to('/admin/customers/index')  ?>" class="nav-link">
+            <a href="<?= Url::to('/admin/setup/index')  ?>" class="nav-link">
               
-            <i class="fas fa-shopping-cart"></i>
+            <i class="fa fa-cog" aria-hidden="true"></i>
+
               <p>
-                Заказы                
+                Setup                
               </p>
             </a>
           </li>
 
           <li class="nav-item">
-            <a href="<?= Url::to('/admin/category/index')  ?>" class="nav-link">
+            <a href="<?= Url::to('/admin/administration/index')  ?>" class="nav-link">
               
-            <i class="fas fa-object-group"></i>
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
+
               <p>
-                Группы               
+                Administration              
               </p>
             </a>
           </li>        

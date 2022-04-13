@@ -55,4 +55,7 @@ class News extends \yii\db\ActiveRecord
             'active' => 'Active',
         ];
     }
+
+
+    
 }
