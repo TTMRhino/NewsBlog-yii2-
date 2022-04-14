@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 
+
 /* @var $this yii\web\View */
 /* @var $model app\models\News */
 /* @var $form yii\widgets\ActiveForm */
@@ -32,6 +33,7 @@ use mihaildev\ckeditor\CKEditor;
 
     <?= $form->field($model, 'date_public')->widget(\yii\jui\DatePicker::classname(), [
     //'language' => 'ru',
+  
     'dateFormat' => 'yyyy-MM-dd',   
     
 ]) ?>

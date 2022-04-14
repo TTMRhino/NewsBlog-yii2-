@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use yii\filters\AccessControl;
 use app\models\News;
 use app\models\NewsSearch;
 use app\modules\admin\models\UploadForm;
@@ -21,17 +22,53 @@ class NewsController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['logout', 'signup'],
+                'rules' => [
+                    [
+                        'actions' => ['signup'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
-            ]
-        );
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
+
+    public function actionLogin()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+ 
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        } else {
+            return $this->render('login', [
+                'model' => $model,
+            ]);
+        }
+    }
+ 
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+ 
+        return $this->goHome();
     }
 
     /**
@@ -82,9 +119,16 @@ class NewsController extends Controller
     public function actionCreate()
     {
         $model = new News();
+        $picModel = new UploadForm();
+        $picModel->imageFile = UploadedFile::getInstance($picModel, 'imageFile');
+
+        //input timestamp to model 
+        $date = new \DateTime();      
+        $model->date_public =  $date->getTimestamp();;
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post()) &&  ($message = $picModel->upload($model)) && $model->save()) {
+                \Yii::$app->session->setFlash('success_update', " News updated! ");
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -93,6 +137,8 @@ class NewsController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'picModel' => $picModel,
+            'timestamp' =>$timestamp
         ]);
     }
 

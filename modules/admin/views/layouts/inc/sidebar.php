@@ -18,7 +18,7 @@
         </div>
         <div class="info">
           <span class="" style="color:#a9a9a9;" ></span>
-          <a href=" <?= Url::to(['auth/logout']) ?>"> : LogOut</a>
+          <a href=" <?= Url::to(['/auth/logout']) ?>"> : LogOut</a>
           
           
         </div>

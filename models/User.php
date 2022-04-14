@@ -1,39 +1,33 @@
 <?php
 
 namespace app\models;
+use yii\db\ActiveRecord;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+    public $password_repeat;
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
+    public function rules()
+    {
+        return [           
+            ['password_hash' ,'compare','message'=>'password mismatch!'],
+            [['auth_key','email'],'safe'],           
+            [['password_hash'],'string','max'=>80],
+            ['access_token', 'safe'],
+        ];
+    }
+    public static function tableName()
+    {
+        return 'user';
+    }
+       
 
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return static::findOne($id);
     }
 
     /**
@@ -41,13 +35,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        
     }
 
     /**
@@ -58,13 +46,9 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
+        
 
-        return null;
+        return static::findOne(['username' => $username]);
     }
 
     /**
@@ -80,7 +64,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->authKey;
+        return $this->auth_key;
     }
 
     /**
@@ -88,7 +72,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        return $this->authKey === $authKey;
+        return $this->auth_key === $authKey;
     }
 
     /**
@@ -96,9 +80,18 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      *
      * @param string $password password to validate
      * @return bool if password provided is valid for current user
+     * $options = [
+     *          'cost' => 12,
+     *       ];
+     * $hash=password_hash($modelNew->password, PASSWORD_BCRYPT,$options);
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return \Yii::$app->getSecurity()->validatePassword($password, $this->password_hash);
+    }
+
+    public function generateAuthKey()
+    {
+        $this->auth_key = \Yii::$app->getSecurity()->generateRandomString();
     }
 }

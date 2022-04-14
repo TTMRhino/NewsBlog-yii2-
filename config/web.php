@@ -70,6 +70,13 @@ $config = [
             ],
         ],
         
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+        'user' => [
+            'identityClass' => 'app\models\User',            
+            'loginUrl' => 'auth/login',
+        ],
         
        
     ],

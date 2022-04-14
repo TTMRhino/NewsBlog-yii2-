@@ -2,6 +2,8 @@
 
 namespace app\modules\admin;
 
+use yii\filters\AccessControl;
+
 /**
  * admin module definition class
  */
@@ -20,5 +22,66 @@ class Module extends \yii\base\Module
         parent::init();
 
         // custom initialization code goes here
+    }
+
+    public function behaviors()
+    {
+       
+           /* return [
+                'access' => [
+                    'class' => AccessControl::class,                
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['login'],
+                            'roles' => ['?'],
+                        ],
+                        [
+                            'allow' => true,                       
+                            'roles' => ['@'],
+                            'matchCallback' => function ($rule, $action) {
+                                
+                                if (\Yii::$app->user->identity->username == 'admin' ) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        ],
+                    ],
+                ],
+            ];*/
+            return [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index'],
+                            'roles' => ['admin'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['activ'],
+                            'roles' => ['activPost'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['create'],
+                            'roles' => ['createPost'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['update'],
+                            'roles' => ['updatePost'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['delete'],
+                            'roles' => ['deletePost'],
+                        ],
+                    ],
+                ],
+            ];
+        
     }
 }
