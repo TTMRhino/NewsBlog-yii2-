@@ -57,27 +57,28 @@ class Module extends \yii\base\Module
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
-                            'actions' => ['activ'],
-                            'roles' => ['activPost'],
+                            'actions' => ['view'],
+                            'roles' => ['admin','manager','mainAdmin','moderator'],
                         ],
+                        
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['createPost'],
+                            'roles' => ['admin','manager','mainAdmin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['updatePost'],
+                            'roles' => ['admin','manger','moderator','mainAdmin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['deletePost'],
+                            'roles' => ['admin','mainAdmin'],
                         ],
                     ],
                 ],

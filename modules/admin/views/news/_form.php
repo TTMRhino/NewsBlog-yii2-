@@ -15,7 +15,7 @@ use mihaildev\ckeditor\CKEditor;
     <?php $form = ActiveForm::begin([
         'options' => ['enctype' => 'multipart/form-data']
     ]); ?>
-
+  <?php if(\Yii::$app->user->can('updatePost',[])): ?>
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'announce')->textInput(['maxlength' => true]) ?>
@@ -29,7 +29,9 @@ use mihaildev\ckeditor\CKEditor;
         'inline' => false, //по умолчанию false
         ],
     ]); 
-?>
+    ?>
+
+     <?php endif; ?>
 
     <?= $form->field($model, 'date_public')->widget(\yii\jui\DatePicker::classname(), [
     //'language' => 'ru',
@@ -37,8 +39,10 @@ use mihaildev\ckeditor\CKEditor;
     'dateFormat' => 'yyyy-MM-dd',   
     
 ]) ?>
-    
-    <?= $form->field($model, 'active')->dropDownList([1 =>'Да', 0 =>'Нет']); ?>
+
+     <?php if(\Yii::$app->user->can('activePost',[])): ?>
+        <?= $form->field($model, 'active')->dropDownList([1 =>'Да', 0 =>'Нет']); ?>
+    <?php endif; ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

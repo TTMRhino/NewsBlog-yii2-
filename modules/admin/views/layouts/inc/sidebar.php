@@ -48,7 +48,7 @@
               </p>
             </a>
           </li>
-
+          <?php if(\Yii::$app->user->can('addUser',[])): ?>
           <li class="nav-item">
             <a href="<?= Url::to('/admin/administration/index')  ?>" class="nav-link">
               
@@ -58,7 +58,8 @@
                 Administration              
               </p>
             </a>
-          </li>        
+          </li>    
+          <?php endif ?>    
 
        
 

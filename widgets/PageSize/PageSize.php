@@ -11,7 +11,7 @@ class PageSize extends Widget
     public function init()
     {
         parent::init();
-        if ($_COOKIE["pageSize"] !== null) {           
+        if (isset($_COOKIE["pageSize"])) {           
             $this->pageSize = htmlspecialchars($_COOKIE["pageSize"]);
         }else{
             $this->pageSize =10;  

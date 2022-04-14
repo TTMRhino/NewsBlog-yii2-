@@ -138,7 +138,7 @@ class NewsController extends Controller
         return $this->render('create', [
             'model' => $model,
             'picModel' => $picModel,
-            'timestamp' =>$timestamp
+            //'timestamp' =>$timestamp
         ]);
     }
 

@@ -25,7 +25,7 @@ class UploadForm extends Model
     {
         if ($this->validate()) {         
        
-            if(!is_null($this->imageFile->extension)){
+            if(isset($this->imageFile->extension)){
                 $filename = strtolower(md5(uniqid($this->imageFile->basename)). '.'. $this->imageFile->extension);
 
                 $model->pic = $filename;//update news.field in DB

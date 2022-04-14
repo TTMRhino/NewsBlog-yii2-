@@ -53,7 +53,7 @@ class SiteController extends Controller
     {
 
          //get cooki pagination size 
-         if ($_COOKIE["pageSize"] !== null) {           
+         if (isset($_COOKIE["pageSize"])) {           
             $pageSize = htmlspecialchars($_COOKIE["pageSize"]);
         }else{
             $pageSize =10;  
@@ -77,7 +77,7 @@ class SiteController extends Controller
     public function actionSearch()
     {
        //get cooki pagination size 
-       if ($_COOKIE["pageSize"] !== null) {           
+       if (isset($_COOKIE["pageSize"])) {           
         $pageSize = htmlspecialchars($_COOKIE["pageSize"]);
     }else{
         $pageSize =10;  

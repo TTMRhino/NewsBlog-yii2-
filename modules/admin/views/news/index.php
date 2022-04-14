@@ -19,9 +19,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::encode($this->title) ?>
     </h1>
 
+    <?php if(\Yii::$app->user->can('createPost',[])): ?>
     <p>
         <?= Html::a('Create News', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php endif; ?>
 
     <?php //echo $this->render('_search', ['model' => $searchModel, 'pageSize' => $pageSize]); ?>
 
@@ -41,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'active',
             [
                 'class' => ActionColumn::className(),
+            
                 'template' => '{view} {update} {delete} ',
                 'buttons' => [
                     'update' => function ($url,$model) {
