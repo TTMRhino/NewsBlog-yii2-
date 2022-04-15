@@ -15,7 +15,9 @@ use mihaildev\ckeditor\CKEditor;
     <?php $form = ActiveForm::begin([
         'options' => ['enctype' => 'multipart/form-data']
     ]); ?>
+
   <?php if(\Yii::$app->user->can('updatePost',[])): ?>
+    
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'announce')->textInput(['maxlength' => true]) ?>

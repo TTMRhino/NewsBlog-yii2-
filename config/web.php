@@ -20,6 +20,7 @@ $config = [
         ],
         'system' => [
             'class' => 'app\modules\admin\modules\system\Module',
+            'defaultRoute' => 'system/system/index', 
             'layout' => 'admin',
         ],
     ],
@@ -62,10 +63,11 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
-            'rules' => [                
-                'site/<page:\d+>' => 'site/index',
-                'site/<id:\d+>' => 'site/view',
-                '<controller:(site)>/<action:(search)>/<q:[a-zA-Z0-9-]+>' =>'site/search',
+            'rules' => [ 
+                //'site/<id:\d+><page:\d+>' => 'site/index',
+                'site/<id:\d+>' => 'site/view',              
+                'site/index/<page:\d+>' => 'site/index',                
+               //'site/search/<q:[a-zA-Z0-9-]+>' =>'site/search',
                 
             ],
         ],

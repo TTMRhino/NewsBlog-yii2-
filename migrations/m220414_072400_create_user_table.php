@@ -13,8 +13,8 @@ class m220414_072400_create_user_table extends Migration
     {
        
             $mainAdmin_user = new User();
-            $mainAdmin_user->created_at = 0;
-            $mainAdmin_user->updated_at = 0;
+           // $mainAdmin_user->created_at = 0;
+           // $mainAdmin_user->updated_at = 0;
             $mainAdmin_user->username = 'Mainadmin';
             $mainAdmin_user->auth_key = 'h_3IwJ66ijbzbEcC8yKsvcaFeFZ0wkIk';
             $mainAdmin_user->email_confirm_token = '1';
@@ -26,8 +26,8 @@ class m220414_072400_create_user_table extends Migration
             $mainAdmin_user->save(false); 
 
             $admin_user = new User();
-            $admin_user->created_at = 0;
-            $admin_user->updated_at = 0;
+            //$admin_user->created_at = 0;
+            //$admin_user->updated_at = 0;
             $admin_user->username = 'Admin';
             $admin_user->auth_key = 'h_3IwJ66ijbzbEcC8yKsvcaFeFZ0wkIk';
             $admin_user->email_confirm_token = '1';
@@ -39,8 +39,8 @@ class m220414_072400_create_user_table extends Migration
             $admin_user->save(false);    
             
             $manager_user = new User();
-            $manager_user->created_at = 0;
-            $manager_user->updated_at = 0;
+           // $manager_user->created_at = 0;
+           // $manager_user->updated_at = 0;
             $manager_user->username = 'Manager';
             $manager_user->auth_key = 'h_3IwJ66ijbzbEcC8yKsvcaFeFZ0wkIk';
             $manager_user->email_confirm_token = '1';
@@ -52,8 +52,8 @@ class m220414_072400_create_user_table extends Migration
             $manager_user->save(false); 
             
             $moderator_user = new User();
-            $moderator_user->created_at = 0;
-            $moderator_user->updated_at = 0;
+           // $moderator_user->created_at = 0;
+           // $moderator_user->updated_at = 0;
             $moderator_user->username = 'Moderator';
             $moderator_user->auth_key = 'h_3IwJ66ijbzbEcC8yKsvcaFeFZ0wkIk';
             $moderator_user->email_confirm_token = '1';
@@ -75,8 +75,8 @@ class m220414_072400_create_user_table extends Migration
     {
         $this->createTable('{{%user}}', [
             'id' => $this->primaryKey(),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
+            'created_at' => $this->timestamp()->defaultValue(new \yii\db\Expression('NOW()')),
+            'updated_at' => $this->timestamp()->defaultValue(new \yii\db\Expression('NOW()')),
             'username' => $this->string()->notNull(),
             'auth_key' => $this->string(32),
             'email_confirm_token' => $this->string(),

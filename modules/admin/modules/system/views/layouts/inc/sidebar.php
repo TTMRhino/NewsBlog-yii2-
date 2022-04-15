@@ -18,7 +18,7 @@
         </div>
         <div class="info">
           <span class="" style="color:#a9a9a9;" ></span>
-          <a href=" <?= Url::to(['auth/logout']) ?>"> : LogOut</a>
+          <a href=" <?= Url::to(['/auth/logout']) ?>"> : LogOut</a>
           
           
         </div>
@@ -29,18 +29,18 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         
           <li class="nav-item">
-            <a href="<?= Url::to('/admin/main/index') ?>" class="nav-link">
+            <a href="<?= Url::to('/system/roles/index') ?>" class="nav-link">
               
               <i class="far fa-chart-bar"></i>
               <p>
-                System
+                Roles
                 <!--<span class="right badge badge-danger">New</span>-->
               </p>
             </a>
           </li>
 
           <li class="nav-item">
-            <a href="<?= Url::to('/admin/customers/index')  ?>" class="nav-link">
+            <a href="<?= Url::to('/system/system/index')  ?>" class="nav-link">
               
             <i class="fas fa-shopping-cart"></i>
               <p>

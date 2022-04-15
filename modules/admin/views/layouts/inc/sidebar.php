@@ -50,7 +50,7 @@
           </li>
           <?php if(\Yii::$app->user->can('addUser',[])): ?>
           <li class="nav-item">
-            <a href="<?= Url::to('/admin/administration/index')  ?>" class="nav-link">
+            <a href="<?= Url::to('/system/system/index')  ?>" class="nav-link">
               
             <i class="fa fa-user-plus" aria-hidden="true"></i>
 

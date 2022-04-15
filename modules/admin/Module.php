@@ -25,31 +25,7 @@ class Module extends \yii\base\Module
     }
 
     public function behaviors()
-    {
-       
-           /* return [
-                'access' => [
-                    'class' => AccessControl::class,                
-                    'rules' => [
-                        [
-                            'allow' => true,
-                            'actions' => ['login'],
-                            'roles' => ['?'],
-                        ],
-                        [
-                            'allow' => true,                       
-                            'roles' => ['@'],
-                            'matchCallback' => function ($rule, $action) {
-                                
-                                if (\Yii::$app->user->identity->username == 'admin' ) {
-                                    return true;
-                                }
-                                return false;
-                            }
-                        ],
-                    ],
-                ],
-            ];*/
+    {       
             return [
                 'access' => [
                     'class' => AccessControl::class,

@@ -38,10 +38,10 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Public', 'url' => ['/site/index']],
-            ['label' => 'Admin', 'url' => ['/admin']],
+          
          
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['auth/login']]
+                ['label' => 'Admin-panel(login)', 'url' => ['auth/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])

@@ -9,11 +9,18 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
 
     public function rules()
     {
-        return [           
-            ['password_hash' ,'compare','message'=>'password mismatch!'],
+        return [
+            ['password_hash', 'required'], 
+            ['password_repeat', 'required'], 
+            [['username','email'],'required'],
+            [['username'],'unique','message'=>'UserName already exist. Please try another one.'],
+            [['email'],'unique','message'=>'Email already exist. Please try another one.'],
+            [['email'],'email'],           
+            ['password_hash' ,'compare','compareAttribute'=>'password_hash','message'=>'password mismatch!'],
             [['auth_key','email'],'safe'],           
-            [['password_hash'],'string','max'=>80],
+            [['password_hash'],'string','min'=>10,'max'=>80],
             ['access_token', 'safe'],
+            [['username'],'string', 'max'=>20]
         ];
     }
     public static function tableName()
