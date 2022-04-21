@@ -19,7 +19,7 @@ class Setup extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pageSize'], 'safe'],           
+            [['pageSize'], 'integer','min'=> 10, 'max'=>100],           
         ];
     }
 

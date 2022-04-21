@@ -28,10 +28,8 @@ $this->title = 'News Blog';
 
 
 <div class="row">
-<?php  foreach($news_posts as $post):?>
-        
-        <div class="card text-center">
-       
+    <?php  foreach($news_posts as $post):?>        
+        <div class="card text-center">       
                 <div class="card-header">
                     <?= $post->title ?>
                 </div>
@@ -40,19 +38,19 @@ $this->title = 'News Blog';
                     <p class="card-text">
                         <?= $post->announce ?>
                     </p>
-                    </a>
+                </a>
 
                 </div>
                 <div class="card-footer text-muted">
                     <?= $post->date_public ?>
+                    Author  <?= $post->user->username ?>
                 </div>
                
-            </div>
-       
-            
-        
-       
-        <?php  endforeach ?>
+                 
+               
+               
+            </div>       
+    <?php  endforeach ?>
 
 
 
@@ -62,16 +60,10 @@ $this->title = 'News Blog';
                 <?= \yii\widgets\LinkPager::widget(['pagination'=> $pages,'class'=>'page-link']); ?>
             </ul>
 
-
-         
-           
-
-       
-
     </div>
 </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <?= PageSize::widget() ?>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-md-2">
+            <?= PageSize::widget() ?>
+        </div>
+    </div>

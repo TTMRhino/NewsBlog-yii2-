@@ -6,6 +6,7 @@ use yii\filters\AccessControl;
 use app\models\News;
 use app\models\NewsSearch;
 use app\modules\admin\models\UploadForm;
+use app\modules\admin\models\Setup;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -78,18 +79,9 @@ class NewsController extends Controller
      */
     public function actionIndex()
     {
-        //get cooki pagination size 
-        if ($_COOKIE["pageSize"] !== null) {           
-            $pageSize = htmlspecialchars($_COOKIE["pageSize"]);
-        }else{
-            $pageSize =10;  
-        }
-
-       
-
         $searchModel = new NewsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->pagination->pageSize = $pageSize;//set pagination size from cooki
+        $dataProvider->pagination->pageSize = $this->getPageSize();//set pagination size from cooki
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -124,7 +116,8 @@ class NewsController extends Controller
 
         //input timestamp to model 
         $date = new \DateTime();      
-        $model->date_public =  $date->getTimestamp();;
+        $model->date_public =  $date->getTimestamp();
+        $model->author_id = \Yii::$app->user->identity->id;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) &&  ($message = $picModel->upload($model)) && $model->save()) {
@@ -153,14 +146,13 @@ class NewsController extends Controller
     {
         $model = $this->findModel($id);
         $picModel = new UploadForm();
-
-        $picModel->deleteCurrentImage($model->pic);
-      
+             
         $picModel->imageFile = UploadedFile::getInstance($picModel, 'imageFile');          
        
+        isset($picModel->imageFile) ? $picModel->deleteCurrentImage($model->pic):'';
 
         if ( $model->load($this->request->post()) &&  ($message = $picModel->upload($model)) && $model->save()) {
-           
+            
             \Yii::$app->session->setFlash('success_update', " News updated! ");
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -180,8 +172,13 @@ class NewsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);       
+        if (file_exists("pic/". $model->pic))
+        {
+            @unlink("pic/". $model->pic);//удаляем уже имеющуюся картинку
+        }     
+       $model->delete();
+       
         return $this->redirect(['index']);
     }
 
@@ -201,19 +198,15 @@ class NewsController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-
-   /* public function actionUpload()
-    {
-        $model = new UploadForm();
-
-        if (Yii::$app->request->isPost) {
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->upload()) {
-                // file is uploaded successfully
-                return;
-            }
+    //get cooki pagination size 
+    private function getPageSize(){       
+        if (isset($_COOKIE["pageSize"]) && is_numeric($_COOKIE["pageSize"]) ) {           
+           return $_COOKIE["pageSize"];
+        }else{
+           // $pageSize = Setup::find()->where(['id' => 1])->one();
+            return Setup::find()->where(['id' => 1])->one()->pageSize;//\Yii::$app->params['defaultPageSize'];
         }
+    }
 
-        return $this->render('upload', ['model' => $model]);
-    }*/
+
 }

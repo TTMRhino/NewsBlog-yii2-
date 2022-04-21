@@ -7,7 +7,7 @@ use app\models\News;
 /**
  * Handles the creation of table `{{%news}}`.
  */
-class m220408_085201_create_news_table extends Migration
+class m220414_072401_create_news_table extends Migration
 {
 
 
@@ -24,6 +24,7 @@ class m220408_085201_create_news_table extends Migration
             $post->active = rand(0, 1);
             //$post->date_public = $faker->unixTime();
             $post->pic = 'logo.jpg';
+            $post->author_id = 3;
             $post->save(false);
         }
 
@@ -41,8 +42,26 @@ class m220408_085201_create_news_table extends Migration
             'pic' => $this->string(),
             'news' => $this->text(),
             'date_public' => $this->timestamp()->defaultValue(new \yii\db\Expression('NOW()')),
-            'active' => $this->boolean()->defaultValue(1)
+            'active' => $this->boolean()->defaultValue(1),
+            'author_id' => $this->integer()->notNull()
         ]);
+
+        // creates index for column `author_id`
+        $this->createIndex(
+            'idx-post-author_id',
+            'news',
+            'author_id'
+        );
+
+        // add foreign key for table `user`
+        $this->addForeignKey(
+            'fk-post-author_id',
+            'news',
+            'author_id',
+            'user',
+            'id',
+            'CASCADE'
+        );
 
         $this->generate();
     }

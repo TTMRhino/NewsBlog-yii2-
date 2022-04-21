@@ -3,18 +3,19 @@ namespace app\widgets\PageSize;
 
 use yii\base\Widget;
 use yii\helpers\Html;
+use app\controllers\SiteController;
 
 class PageSize extends Widget
 {
-    public $pageSize;
+    public  $pageSize;
 
     public function init()
     {
         parent::init();
-        if (isset($_COOKIE["pageSize"])) {           
-            $this->pageSize = htmlspecialchars($_COOKIE["pageSize"]);
+        if (isset($_COOKIE["pageSize"]) && is_numeric($_COOKIE["pageSize"])) {           
+            $this->pageSize = $_COOKIE["pageSize"];                      
         }else{
-            $this->pageSize =10;  
+            $this->pageSize = \Yii::$app->params['defaultPageSize'];;           
         }
     }
 

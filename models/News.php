@@ -14,6 +14,7 @@ use Yii;
  * @property string|null $news
  * @property string|null $date_public
  * @property int|null $active
+ * @property int|null $author_id
  */
 class News extends \yii\db\ActiveRecord
 {
@@ -33,7 +34,7 @@ class News extends \yii\db\ActiveRecord
         return [
             [['title'], 'required'],
             [['news'], 'string'],
-            [['date_public'], 'safe'],
+            [['date_public','author_id'], 'safe'],
             [['active'], 'integer'],
             [['title'], 'string', 'max' => 50],
             [['announce', 'pic'], 'string', 'max' => 255],
@@ -53,9 +54,14 @@ class News extends \yii\db\ActiveRecord
             'news' => 'News',
             'date_public' => 'Date Public',
             'active' => 'Active',
+            'author_id' => 'User'
         ];
     }
 
 
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'author_id']);
+    }
     
 }

@@ -9,10 +9,14 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\News;
+use app\modules\admin\models\Setup;
 use yii\data\Pagination;
+use app\widgets\PageSize\PageSize;
 
 class SiteController extends Controller
 {
+    public const DEFAULT_PAGE_SIZE = 10;
+    
     /**
      * {@inheritdoc}
      */
@@ -51,17 +55,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-
-         //get cooki pagination size 
-         if (isset($_COOKIE["pageSize"])) {           
-            $pageSize = htmlspecialchars($_COOKIE["pageSize"]);
-        }else{
-            $pageSize =10;  
-        }
-
         $news_posts = News::find()->orderBy(['title' => SORT_ASC]);
 
-        $pages = new Pagination([ 'totalCount'=> $news_posts->count(), 'pageSize'=>$pageSize,'forcePageParam'=>false, 'pageSizeParam'=>false ]);
+        $pages = new Pagination([ 
+            'totalCount'=> $news_posts->count(), 
+            'pageSize'=>$this->getPageSize(),
+            'forcePageParam'=>false, 
+            'pageSizeParam'=>false 
+        ]);
+
         $news_posts = $news_posts->offset($pages->offset)->limit($pages->limit)->all();
 
         return $this->render('public/index',compact('news_posts','pages'));
@@ -70,31 +72,31 @@ class SiteController extends Controller
     public function actionView(int $id)
     {
         $post = News::find()->where(['id'=>$id])->one();
-        return $this->render('public/view', compact('post'));
+        
+        //Empty picture is replaced
+        $img = empty($post->pic) ? 'img-nofound.jpg' : $post->pic;
+      
+        return $this->render('public/view', compact('post','img'));
     }
 
 
     public function actionSearch()
     {
-       //get cooki pagination size 
-       if (isset($_COOKIE["pageSize"])) {           
-        $pageSize = htmlspecialchars($_COOKIE["pageSize"]);
-    }else{
-        $pageSize =10;  
-    }
-    
         $q = trim(\Yii::$app->request->get('q'));
         
         if(!$q){
             return $this->render('search');
         }
         $query = News::find()->where(['like', 'news',$q])->orwhere(['like', 'title',$q]);
-        $pages = new Pagination([ 'totalCount'=> $query->count(), 'pageSize'=>$pageSize,'forcePageParam'=>false, 'pageSizeParam'=>false ]);
+        $pages = new Pagination([ 
+            'totalCount'=> $query->count(), 
+            'pageSize'=>$this->getPageSize(),
+            'forcePageParam'=>false, 
+            'pageSizeParam'=>false 
+        ]);
         $news_posts= $query->offset($pages->offset)->limit($pages->limit)->all();
-
         return $this->render('public/search',compact('news_posts','pages','q'));
-    }
-    
+    }    
 
     /**
      * Login action.
@@ -129,6 +131,19 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+    //get cooki pagination size 
+    private function getPageSize(){         
+        
+        if (isset($_COOKIE["pageSize"]) && is_numeric($_COOKIE["pageSize"]) ) {           
+           return $_COOKIE["pageSize"];
+        }else{
+           // $pageSize = Setup::find()->where(['id' => 1])->one();
+           return Setup::find()->where(['id' => 1])->one()->pageSize;//\Yii::$app->params['defaultPageSize'];
+        }
+      
+    }
+    
 
     
 }
