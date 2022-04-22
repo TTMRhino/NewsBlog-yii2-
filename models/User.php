@@ -55,7 +55,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username):object
+    public static function findByUsername($username)
     {
         
 
