@@ -8,13 +8,13 @@ use yii\filters\AccessControl;
  */
 class Module extends \yii\base\Module
 {
+    
+    public $controllerNamespace = 'app\modules\admin\modules\system\controllers';
+
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'app\modules\admin\modules\system\controllers';
-
-
-    public function behaviors()
+    public function behaviors():array 
     {       
             return [
                 'access' => [

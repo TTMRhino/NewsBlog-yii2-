@@ -21,7 +21,7 @@ class NewsController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
+    public function behaviors():array
     {
         return [
             'access' => [
@@ -48,7 +48,11 @@ class NewsController extends Controller
             ],
         ];
     }
-
+    /**
+     * Display view Login .
+     *
+     * @return string|Redirect
+     */
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -64,7 +68,12 @@ class NewsController extends Controller
             ]);
         }
     }
- 
+    
+    /**
+     * Logout .
+     *
+     * @return Redirect
+     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -77,7 +86,7 @@ class NewsController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex():string
     {
         $searchModel = new NewsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -96,7 +105,7 @@ class NewsController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView(int $id):string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -142,7 +151,7 @@ class NewsController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate(int $id)
     {
         $model = $this->findModel($id);
         $picModel = new UploadForm();
@@ -170,7 +179,7 @@ class NewsController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id)
     {
         $model = $this->findModel($id);       
         if (file_exists("pic/". $model->pic))
@@ -189,7 +198,7 @@ class NewsController extends Controller
      * @return News the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel(int $id)
     {
         if (($model = News::findOne(['id' => $id])) !== null) {
             return $model;
@@ -197,9 +206,14 @@ class NewsController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-    //get cooki pagination size 
-    private function getPageSize(){       
+    /**
+     * Get cooki pagination size     
+     * 
+     * @return string pagesize     
+     */
+   
+    private function getPageSize():string
+    {       
         if (isset($_COOKIE["pageSize"]) && is_numeric($_COOKIE["pageSize"]) ) {           
            return $_COOKIE["pageSize"];
         }else{

@@ -15,8 +15,7 @@ use app\widgets\PageSize\PageSize;
 
 class SiteController extends Controller
 {
-    public const DEFAULT_PAGE_SIZE = 10;
-    
+       
     /**
      * {@inheritdoc}
      */
@@ -51,9 +50,9 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return string
+     * @return Response|string
      */
-    public function actionIndex()
+    public function actionIndex():string
     {
         $news_posts = News::find()->orderBy(['title' => SORT_ASC]);
 
@@ -69,18 +68,27 @@ class SiteController extends Controller
         return $this->render('public/index',compact('news_posts','pages'));
     }
 
-    public function actionView(int $id)
+    /**
+     * Displays View news.
+     * @property integer $id  The id of the news
+     * @return Response|string
+     */
+    public function actionView(int $id):string
     {
         $post = News::find()->where(['id'=>$id])->one();
-        
+
         //Empty picture is replaced
         $img = empty($post->pic) ? 'img-nofound.jpg' : $post->pic;
       
         return $this->render('public/view', compact('post','img'));
     }
 
-
-    public function actionSearch()
+    /**
+     * Displays found news.
+     *
+     * @return Response|string
+     */
+    public function actionSearch():string
     {
         $q = trim(\Yii::$app->request->get('q'));
         
@@ -103,7 +111,7 @@ class SiteController extends Controller
      *
      * @return Response|string
      */
-    public function actionLogin()
+    public function actionLogin():string
     {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -123,7 +131,7 @@ class SiteController extends Controller
     /**
      * Logout action.
      *
-     * @return Response
+     * @return Response|string 
      */
     public function actionLogout()
     {
@@ -132,8 +140,13 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    //get cooki pagination size 
-    private function getPageSize(){         
+    /**
+     * Helper get page size.
+     *
+     * @return string page size
+     */
+    private function getPageSize():string
+    {         
         
         if (isset($_COOKIE["pageSize"]) && is_numeric($_COOKIE["pageSize"]) ) {           
            return $_COOKIE["pageSize"];

@@ -7,7 +7,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
     public $password_repeat;
 
-    public function rules()
+    public function rules():array
     {
         return [
             ['password_hash', 'required'], 
@@ -23,7 +23,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             [['username'],'string', 'max'=>20]
         ];
     }
-    public static function tableName()
+    public static function tableName():string
     {
         return 'user';
     }
@@ -31,8 +31,12 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
 
     /**
      * {@inheritdoc}
+     * 
+     * @param int $id  id user
+     * 
+     * @return object
      */
-    public static function findIdentity($id)
+    public static function findIdentity($id):object
     {
         return static::findOne($id);
     }
@@ -51,7 +55,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByUsername($username):object
     {
         
 
@@ -61,7 +65,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

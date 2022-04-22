@@ -17,7 +17,7 @@ class RolesController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
+    public function behaviors():array
     {
         return array_merge(
             parent::behaviors(),
@@ -37,7 +37,7 @@ class RolesController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex():string
     {
         $searchModel = new RolesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -55,7 +55,7 @@ class RolesController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($item_name, $user_id)
+    public function actionView(string $item_name, string $user_id):string
     {
         return $this->render('view', [
             'model' => $this->findModel($item_name, $user_id),
@@ -99,7 +99,7 @@ class RolesController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($item_name, $user_id)
+    public function actionUpdate(string $item_name, string $user_id)
     {
         $model = $this->findModel($item_name, $user_id);
 
@@ -120,7 +120,7 @@ class RolesController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($item_name, $user_id)
+    public function actionDelete(string $item_name, string $user_id)
     {
         $this->findModel($item_name, $user_id)->delete();
 
@@ -135,7 +135,7 @@ class RolesController extends Controller
      * @return Roles the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($item_name, $user_id)
+    protected function findModel(string $item_name, string $user_id): Roles
     {
         if (($model = Roles::findOne(['item_name' => $item_name, 'user_id' => $user_id])) !== null) {
             return $model;

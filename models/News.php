@@ -29,7 +29,7 @@ class News extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules():array
     {
         return [
             [['title'], 'required'],
@@ -44,7 +44,7 @@ class News extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels():array
     {
         return [
             'id' => 'ID',
@@ -59,7 +59,7 @@ class News extends \yii\db\ActiveRecord
     }
 
 
-    public function getUser()
+    public function getUser():yii\db\ActiveQuery 
     {
         return $this->hasOne(User::class, ['id' => 'author_id']);
     }

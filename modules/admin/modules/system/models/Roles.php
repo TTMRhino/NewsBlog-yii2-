@@ -19,7 +19,7 @@ class Roles extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName():string
     {
         return 'auth_assignment';
     }
@@ -27,7 +27,7 @@ class Roles extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules():array
     {
         return [
             [['item_name', 'user_id'], 'required'],
@@ -41,7 +41,7 @@ class Roles extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels():array
     {
         return [
             'item_name' => 'Item Name',
@@ -55,12 +55,18 @@ class Roles extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getItemName()
+    public function getItemName():ActiveQuery
     {
         return $this->hasOne(AuthItem::class, ['name' => 'item_name']);
     }
-
-    public function getUser() {
+    
+    /**
+     * Gets user  -> user(table).
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser():ActiveQuery
+    {
         return $this->hasMany(User::class,['user_id'=>'id']);
       }
 }

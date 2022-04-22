@@ -14,7 +14,7 @@ class UserSearch extends User
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules():array
     {
         return [
             [['id', 'created_at', 'updated_at', 'status'], 'integer'],
@@ -38,7 +38,7 @@ class UserSearch extends User
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search(array $params):ActiveDataProvider
     {
         $query = User::find();
 

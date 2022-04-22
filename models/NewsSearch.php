@@ -16,7 +16,7 @@ class NewsSearch extends News
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules():array
     {
         return [
             [['id', 'active'], 'integer'],
@@ -36,11 +36,11 @@ class NewsSearch extends News
     /**
      * Creates data provider instance with search query applied
      *
-     * @param array $params
+     * @param array $params searching words
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search(array $params):ActiveDataProvider
     {
         $cookies = \Yii::$app->request->cookies;
         if (($cookie = $cookies->get('pageSize')) !== null) {

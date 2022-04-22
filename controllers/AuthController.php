@@ -6,9 +6,14 @@ use app\models\LoginForm;
 
 class AuthController extends Controller
 {
+    
     public $layout = 'auth';
 
-
+    /**
+     * Redirect to admin-panel.
+     *
+     * @return Redirect|string
+     */
     public function actionLogin()
     {        
         if (!\Yii::$app->user->isGuest) {
@@ -26,8 +31,12 @@ class AuthController extends Controller
         ]);
     }
 
-
-    public function actionLogout()
+    /**
+     * Logout user.
+     *
+     * @return object 
+     */
+    public function actionLogout():object
     {
         \Yii::$app->user->logout();
 

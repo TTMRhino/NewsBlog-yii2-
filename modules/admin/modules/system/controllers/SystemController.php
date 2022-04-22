@@ -17,7 +17,7 @@ class SystemController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
+    public function behaviors():array
     {
         return array_merge(
             parent::behaviors(),
@@ -37,7 +37,7 @@ class SystemController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex():string
     {
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -54,7 +54,7 @@ class SystemController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView(int $id):string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -98,7 +98,7 @@ class SystemController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate(int $id)
     {
         $model = $this->findModel($id);
 
@@ -118,7 +118,7 @@ class SystemController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id):Response
     {
         $this->findModel($id)->delete();
 
@@ -132,7 +132,7 @@ class SystemController extends Controller
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel(int $id):User
     {
         if (($model = User::findOne(['id' => $id])) !== null) {
             return $model;
