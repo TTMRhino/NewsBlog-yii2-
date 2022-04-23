@@ -15,7 +15,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             [['username','email'],'required'],
             [['username'],'unique','message'=>'UserName already exist. Please try another one.'],
             [['email'],'unique','message'=>'Email already exist. Please try another one.'],
-            [['email'],'email'],           
+            [['email'],'email','max'=>30],           
             ['password_hash' ,'compare','compareAttribute'=>'password_hash','message'=>'password mismatch!'],
             [['auth_key','email'],'safe'],           
             [['password_hash'],'string','min'=>10,'max'=>80],

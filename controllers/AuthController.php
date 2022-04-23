@@ -6,7 +6,10 @@ use app\models\LoginForm;
 
 class AuthController extends Controller
 {
-    
+    /** 
+     * Layout view
+     * @property string $layout
+     * */
     public $layout = 'auth';
 
     /**
