@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?= DetailView::widget([
-        'model' => $model,
+        'model' => $img,
         'attributes' => [
             'id',
             'title',
@@ -55,10 +55,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=> 'pic',
                 'format' => 'raw',
-                'value'=> function($model)
+                'value'=> function($img)
                 {
                     
-                    $img = $model->pic ;
+                    //$img = $model->pic ;
                    
                     return "<div class='pro-img'>
                             <a href='/pic/". $img . "' data-toggle='lightbox'>

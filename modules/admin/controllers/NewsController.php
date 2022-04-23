@@ -107,9 +107,11 @@ class NewsController extends Controller
      */
     public function actionView(int $id):string
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model = $this->findModel($id);
+        $img = empty($post->pic) ? 'img-nofound.jpg' : $post->pic;
+
+        return $this->render('view',compact('model','img'));
+        
     }
 
     /**
